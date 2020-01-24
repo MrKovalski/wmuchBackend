@@ -60,7 +60,7 @@ use app\Http\Controllers;
  ** get| admin/users/
  ** get| admin/users/{id}
  ** post| admin/users/
- ** put| uadmin/sers/{id}
+ ** put| admin/users/{id}
  ** delete| admin/users/{id}
  */
     Route::apiResource('admin/users', 'API\UserController')
@@ -74,10 +74,10 @@ use app\Http\Controllers;
  ** post| admin/hours/
  ** put| admin/hours/{id}
  ** delete| admin/hours/{id}
- ** //dodaj admin/user/{id}/hours/
+ ** //dodaj admin/users/{id}/hours/
  **
  */
     Route::apiResource('admin/hours', 'API\WorkedHoursController')
         ->middleware(['auth:api']);
-    Route::get('admin/user/{user}/hours', 'API\AdminController@showUserHours')
+    Route::get('admin/users/{user}/hours', 'API\AdminController@showUserHours')
         ->middleware(['auth:api']);
