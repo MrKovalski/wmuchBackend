@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Organisation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -25,9 +26,12 @@ class AuthController extends Controller
             'password' => 'required|min:6',
             'working_status' => 'required',
             'hour_rate' => 'required',
-
+            'organisation_name' => 'required|min:2'
         ]);
 
+        $organisation = Organisation::create([
+            'name' => $request->organisation_name,
+        ]);
 
         $user = User::create([
             'name' => $request->name,
@@ -35,7 +39,9 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
             'working_status' => $request->working_status,
             'hour_rate' => $request->hour_rate,
-            'role_id' => 2,
+            'role_id' => 1,
+            'organisation_id' => $organisation->name,
+
         ]);
 
         return response()->json($user);
@@ -48,12 +54,14 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        if( Auth::attempt(['email'=>$request->email, 'password'=>$request->password]) ) {
+        $credentials = $request->only('email', 'password');
+
+        if( Auth::attempt($credentials) ) {
             $user = Auth::user();
 
-            $token = $user->createToken($user->email.'-'.now());
+            $token = $this->generateAccessToken($user);
 
-            return response()->json(['token' => $token->accessToken]);
+            return response()->json(['token' => $token]);
 
         }
     }

@@ -22,9 +22,6 @@ class User extends Authenticatable
         'organisation_id',
         'working_status',
         'hour_rate',
-
-
-
     ];
 
     protected $hidden = [

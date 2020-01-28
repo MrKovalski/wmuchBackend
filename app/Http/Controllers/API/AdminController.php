@@ -28,8 +28,7 @@ class AdminController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-//        $user = User::findOrFail($request->user()->id);
-        $user = User::findOrFail(2);
+        $user = Auth::user();
         $user->update($request->all());
         return new UserResource($user);
 

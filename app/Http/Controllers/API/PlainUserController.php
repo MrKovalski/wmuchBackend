@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Psy\Util\Json;
 use Validator;
 use Illuminate\Http\Request;
@@ -16,13 +18,25 @@ use App\Http\Resources\WorkingHourResource;
 
 class PlainUserController extends Controller
 {
+    public static function convertIds($user)
+    {
+        $user->role_id = $user->role->role;
+        $user->organisation_id = $user->organisation->name;
+        if($user->working_status == 1) {
+            $user->working_status = "radi";
+        } else {
+            $user->working_status = "ne radi";
+        }
+    }
     //showUser
     public function showUser(Request $request)
     {
-//        $user = User::find($request->user()->id);
-        $user = User::find(2);
+        $user = Auth::user();
+
+        $this->convertIds($user);
 
         return new UserResource($user);
+
     }
 
     //updateUser
@@ -40,25 +54,43 @@ class PlainUserController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-//        $user = User::findOrFail($request->user()->id);
-        $user = User::findOrFail(2);
+        $user = Auth::user();
         $user->update($request->all());
+
+        $this->convertIds($user);
+
         return new UserResource($user);
 
     }
 
     // show all user hours
     public function userHours(Request $request){
-//        $user_id = $request->user()->id;
-        $user_id = 2;
-        $user = User::find($user_id);
+//
+        $user = Auth::user();
 
-        $hours = $user->working_hours;
+        $hours = WorkingHour::where('user_id', $user->id)->orderBy('start', 'desc')->get();
 
         return WorkingHourResource::collection($hours);
 
     }
 
+    //pocni novi sat odnosno novo radno vreme
+    //upisuje samo start i user id
+    public function store(Request $request)
+    {
+        $user = Auth::user();
+        $user_id = $user->id;
+        $start_time = WorkedHoursController::cor_time();
+
+        $request->merge([
+            'start' => $start_time->toDateTimeString(),
+            'user_id' => $user_id,
+        ]);
+
+        $createHoursById = WorkingHour::create($request->all());
+        return new WorkingHourResource($createHoursById);
+
+    }
 
 
 }

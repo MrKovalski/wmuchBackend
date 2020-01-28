@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Organisation;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class UserController extends Controller
@@ -28,6 +29,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
+        $oi = Auth::user()->organisation->id;
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required',
@@ -40,21 +43,16 @@ class UserController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $user = User::find(1);
-        $org = $user->organisation->id;
-
-        $request->merge(['organisation_id' => $org]);
-        $request->merge(['role_id' => 2]);
-
-        $cu = User::create($request->all());
-
-        $createdUser = $request->merge([
-            'organisation_id' => $cu->organisation->name,
-            'role_id' => $cu->role->role,
-            'working_status' => $this->work_status($request->get('working_status')),
+        $request->merge([
+            'organisation_id' => $oi,
+            'role_id' => 2,
         ]);
 
-        return new UserResource($createdUser);
+        $user = User::create($request->all());
+        $user->save();
+
+        PlainUserController::convertIds($user);
+        return new UserResource($user);
     }
 
     public function show(User $user)

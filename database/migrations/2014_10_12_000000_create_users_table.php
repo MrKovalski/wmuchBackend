@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer('working_status');
             $table->double('hour_rate')->nullable();
-            $table->unsignedInteger('role_id');
+            $table->unsignedInteger('role_id')->default(2);
             $table->unsignedInteger('organisation_id');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

@@ -12,20 +12,20 @@ use app\Http\Controllers;
         ->middleware(['auth:api']);
 
     //user routes
-    Route::group(['prefix' => 'user', 'namespace' => 'API'], function ()
+    Route::group(['prefix' => 'user', 'middleware' => ['auth:api', 'can:userAccess'], 'namespace' => 'API'], function ()
     {
         Route::get('', 'PlainUserController@showUser');
         Route::patch('', 'PlainUserController@updateUser');
 
-        Route::get('hours', 'WorkedHoursController@index');
-        Route::post('hours', 'WorkedHoursController@store');
+        Route::get('hours', 'PlainUserController@userHours');
+        Route::post('hours', 'PlainUsercontroller@store');
         Route::get('hours/{hour}', 'WorkedHoursController@show');
         Route::patch('hours/{hour}', 'WorkedHoursController@update');
     });
 
 
     //admin routes
-    Route::group(['prefix' => 'admin', 'namespace' => 'API'], function ()
+    Route::group(['prefix' => 'admin', 'middleware' => ['auth:api', 'can:adminAccess'], 'namespace' => 'API'], function ()
     {
         Route::get('', 'AdminController@showUser');
         Route::patch('', 'AdminController@updateUser');
