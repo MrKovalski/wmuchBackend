@@ -16,6 +16,7 @@ class AuthController extends Controller
         return $token->accessToken;
     }
 
+
     public function register(Request $request)
     {
         $request->validate([

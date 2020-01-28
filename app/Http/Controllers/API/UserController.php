@@ -2,67 +2,66 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Resources\UsersResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Organisation;
 use Validator;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function work_status($status)
+    {
+        if($status == 1){
+            return 'Radi';
+        } else{
+            return 'Na godišnjem';
+        }
+    }
     public function index()
     {
         $user = User::all();
-        return UsersResource::collection($user);
+        return UserResource::collection($user);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required',
             'password' => 'required',
             'working_status' => 'required',
             'hour_rate' => 'required',
-            'role_id' => 'required',
+
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $createUser = User::create($request->all());
-        return new UsersResource($createUser);
+        $user = User::find(1);
+        $org = $user->organisation->id;
+
+        $request->merge(['organisation_id' => $org]);
+        $request->merge(['role_id' => 2]);
+
+        $cu = User::create($request->all());
+
+        $createdUser = $request->merge([
+            'organisation_id' => $cu->organisation->name,
+            'role_id' => $cu->role->role,
+            'working_status' => $this->work_status($request->get('working_status')),
+        ]);
+
+        return new UserResource($createdUser);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(User $user)
     {
-        return new UsersResource($user);
+        return new UserResource($user);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $user)
     {
 
@@ -72,27 +71,30 @@ class UserController extends Controller
             'password' => 'required',
             'working_status' => 'required',
             'hour_rate' => 'required',
-            'role_id' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $updateUser = User::findOrFail($user);
-        $updateUser->update($request->all());
-        return new UsersResource($updateUser);
+        $thisUser = User::findOrFail($user);
+        $thisUser->update($request->all());
 
+        $org = $thisUser->organisation->id;
+
+
+        $updatedUserTxt = $request->merge([
+            'id' => $thisUser->value('id'),
+            'organisation_id' => $thisUser->organisation->name,
+            'role_id' => $thisUser->role->role,
+            'working_status' => $this->work_status($request->get('working_status')),
+        ]);
+
+        return new UserResource($updatedUserTxt);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        $deleteUserById = User::findOrFail($id)->delete();
+        User::findOrFail($id)->delete();
         return response()->json([], 204);
     }
 }

@@ -2,73 +2,81 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Resources\UsersResource;
-use App\Http\Resources\WorkingHoursResource;
+use App\Http\Resources\UserResource;
+use App\Http\Resources\WorkingHourResource;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\WorkingHour;
+use Validator;
 
 class WorkedHoursController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //ispravi gresku u php vremenskim zonama
+    public static function cor_time()
+    {
+        if(date('I') !=1)
+        {
+            return Carbon::now()->addHour();
+        } else {
+            return Carbon::now();
+        }
+    }
+
+    //radni sati svih usera
     public function index()
     {
         $showAllHours = WorkingHour::All();
-        return WorkingHoursResource::collection($showAllHours);
+        return WorkingHourResource::collection($showAllHours);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    //pocni novi sat odnosno novo radno vreme
+    //upisuje samo start i user id
     public function store(Request $request)
     {
+        $user_id = 1;
+        $start_time = self::cor_time();
+
+        $request->merge([
+           'start' => $start_time->toDateTimeString(),
+           'user_id' => $user_id,
+        ]);
+
         $createHoursById = WorkingHour::create($request->all());
-        return new WorkingHoursResource($createHoursById);
+        return new WorkingHourResource($createHoursById);
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //prikazi odradjeni sat
     public function show($hour)
     {
         $showHoursById = WorkingHour::findOrFail($hour);
-        return new WorkingHoursResource($showHoursById);
+        return new WorkingHourResource($showHoursById);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    //upisuje zavrsi radni sat
+    //racuna ukupno vreme na poslu
+    public function update(Request $request, $this_hour)
     {
-        $updateHoursById = WorkingHour::findOrFail($id);
-        $updateHoursById->update($request->all());
-        return new WorkingHoursResource($updateHoursById);
+        //u promenljive start i end upisemo pocetno i zavrsno vreme iz baze
+        //i racunamo proteklo vreme
+        $hour = WorkingHour::findOrFail($this_hour);
+        $start = new Carbon($hour->start);
+        $end = self::cor_time();
+        $hours_worked = $end->diffInMinutes($start);
+        $request->merge([
+            'start' => $start->toDateTimeString(),
+            'end' => $end->toDateTimeString(),
+            'hours_worked' => $hours_worked,
+        ]);
+        $hour->update($request->all());
+        return new WorkingHourResource($hour);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //brise radne sate
     public function destroy($id)
     {
-        $deleteHoursById = WorkingHour::find($id)->delete();
+        WorkingHour::find($id)->delete();
         return response()->json([], 204);
 
     }

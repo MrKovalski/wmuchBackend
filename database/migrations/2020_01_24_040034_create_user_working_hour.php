@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWorkingHoursTable extends Migration
+class CreateUserWorkingHour extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateWorkingHoursTable extends Migration
      */
     public function up()
     {
-        Schema::create('working_hours', function (Blueprint $table) {
+        Schema::create('user_working_hour', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id');
-            $table->dateTime('start');
-            $table->dateTime('end')->nullable();
-            $table->string('hours_worked')->nullable();
+            $table->integer('user_id');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateWorkingHoursTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('working_hours');
+        Schema::dropIfExists('user_working_hour');
     }
 }

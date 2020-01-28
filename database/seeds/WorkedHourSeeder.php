@@ -13,16 +13,16 @@ class WorkedHourSeeder extends Seeder
     {
         DB::table('working_hours')->insert([
             'id' => 1,
-            'start' => '2019-9-1 17:00',
-            'end' => '2019-9-1 17:30',
+            'start' => now(),
+            'end' => now(),
             'hours_worked' => 3,
             'user_id' => 1
         ]);
         DB::table('working_hours')->insert([
             'id' => 2,
-            'start' => '2019-9-1 17:00',
-            'end' => '2019-9-1 17:30',
-            'hours_worked' => 0.3,
+            'start' => now(),
+            'end' => now(),
+            'hours_worked' => 3,
             'user_id' => 2
         ]);
 

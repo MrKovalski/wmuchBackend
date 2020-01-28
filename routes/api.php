@@ -4,80 +4,35 @@
 use Illuminate\Http\Request;
 use app\Http\Controllers;
 
-    //public
-/**
- *  Auth
- *
- * * post| login/
- * * post| register/
- *
- */
+    //auth routes
+
     Route::post('register', 'API\AuthController@register');
     Route::post('login', 'API\AuthController@login');
-
-
-    //private
-/**
- *  Auth
- *
- * * get| logout/
- *
- */
     Route::get('logout', 'API\AuthController@logout')
         ->middleware(['auth:api']);
 
-    //user
-/**
- *  User
- *
- ** get  | user/
- ** put  | user/
- ** get  | hours/
- ** get  | hours/{hour}
- ** post | hours/
- ** put  | hours/{hour}
- *
- *
- */
-    Route::get('user', 'API\PlainUserController@showUser')
-        ->middleware(['auth:api']);
-    Route::put('user', 'API\PlainUserController@updateUser')
-        ->middleware(['auth:api']);
-    Route::get('hours', 'API\PlainUserController@userHours')
-        ->middleware(['auth:api']);
-    Route::get('hours/{hour}', 'API\PlainUserController@userHour')
-        ->middleware(['auth:api']);
-    Route::post('hours', 'API\PlainUserController@storeHour')
-        ->middleware(['auth:api']);
-    Route::put('hours/{hour}', 'API\PlainUserController@updateHour')
-        ->middleware(['auth:api']);
+    //user routes
+    Route::group(['prefix' => 'user', 'namespace' => 'API'], function ()
+    {
+        Route::get('', 'PlainUserController@showUser');
+        Route::patch('', 'PlainUserController@updateUser');
+
+        Route::get('hours', 'WorkedHoursController@index');
+        Route::post('hours', 'WorkedHoursController@store');
+        Route::get('hours/{hour}', 'WorkedHoursController@show');
+        Route::patch('hours/{hour}', 'WorkedHoursController@update');
+    });
 
 
-    //admin
-/**
- *  Users
- *
- ** get| admin/users/
- ** get| admin/users/{id}
- ** post| admin/users/
- ** put| admin/users/{id}
- ** delete| admin/users/{id}
- */
-    Route::apiResource('admin/users', 'API\UserController')
-    ->middleware(['auth:api']);
+    //admin routes
+    Route::group(['prefix' => 'admin', 'namespace' => 'API'], function ()
+    {
+        Route::get('', 'AdminController@showUser');
+        Route::patch('', 'AdminController@updateUser');
+        Route::apiResource('users', 'UserController');
+        Route::apiResource('hours', 'WorkedHoursController');
+        Route::get('users/{user}/hours', 'AdminController@showUserHours');
+    });
 
-/**
- *  Hours
- *
- ** get| admin/hours/
- ** get| admin/hours/{id}
- ** post| admin/hours/
- ** put| admin/hours/{id}
- ** delete| admin/hours/{id}
- ** //dodaj admin/users/{id}/hours/
- **
- */
-    Route::apiResource('admin/hours', 'API\WorkedHoursController')
-        ->middleware(['auth:api']);
-    Route::get('admin/users/{user}/hours', 'API\AdminController@showUserHours')
-        ->middleware(['auth:api']);
+
+

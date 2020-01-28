@@ -2,8 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a79a5377-7f34-42f7-8029-b18749688022" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/wmuch.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/wmuch.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AdminController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/PlainUserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/PlainUserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/WorkedHoursController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/WorkedHoursController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/RolesResource.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/UsersResource.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Resources/WorkingHoursResource.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Role.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/WorkingHour.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/WorkingHour.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_09_24_140949_create_working_hours_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_09_24_140949_create_working_hours_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/RoleSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/RoleSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/UserSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/UserSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/WorkedHourSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/WorkedHourSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -183,10 +202,51 @@
       <workItem from="1570119630206" duration="1341000" />
       <workItem from="1573492316885" duration="954000" />
       <workItem from="1579722945655" duration="2244000" />
+      <workItem from="1579836639711" duration="482000" />
+      <workItem from="1579837138834" duration="2511000" />
+      <workItem from="1579853758617" duration="20099000" />
+      <workItem from="1579886181948" duration="1033000" />
+      <workItem from="1580042296477" duration="4364000" />
+      <workItem from="1580054302768" duration="35036000" />
+      <workItem from="1580175169369" duration="2215000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="817" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1579863088038">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="817" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1050/-1920.5.1920.1050@0.0.1920.1050" timestamp="1579863088038" />
+    <state x="690" y="279" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1580143298672">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="690" y="279" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050/-1920.5.1920.1050@0.0.1920.1050" timestamp="1580143298672" />
+    <state x="-1335" y="124" key="CommitChangelistDialog2" timestamp="1580212066678">
+      <screen x="-1920" y="5" width="1920" height="1050" />
+    </state>
+    <state x="-1335" y="124" key="CommitChangelistDialog2/0.0.1920.1050/-1920.5.1920.1050@-1920.5.1920.1050" timestamp="1580212066678" />
+    <state width="1877" height="285" key="GridCell.Tab.0.bottom" timestamp="1579884313502">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="285" key="GridCell.Tab.0.bottom/0.0.1920.1050/-1920.5.1920.1050@0.0.1920.1050" timestamp="1579884313502" />
+    <state width="1877" height="285" key="GridCell.Tab.0.center" timestamp="1579884313502">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="285" key="GridCell.Tab.0.center/0.0.1920.1050/-1920.5.1920.1050@0.0.1920.1050" timestamp="1579884313502" />
+    <state width="1877" height="285" key="GridCell.Tab.0.left" timestamp="1579884313501">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="285" key="GridCell.Tab.0.left/0.0.1920.1050/-1920.5.1920.1050@0.0.1920.1050" timestamp="1579884313501" />
+    <state width="1877" height="285" key="GridCell.Tab.0.right" timestamp="1579884313502">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="285" key="GridCell.Tab.0.right/0.0.1920.1050/-1920.5.1920.1050@0.0.1920.1050" timestamp="1579884313502" />
+    <state x="623" y="227" key="search.everywhere.popup" timestamp="1579854092749">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="623" y="227" key="search.everywhere.popup/0.0.1920.1050/-1920.5.1920.1050@0.0.1920.1050" timestamp="1579854092749" />
   </component>
 </project>
